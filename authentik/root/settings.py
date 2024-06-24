@@ -32,6 +32,7 @@ AUTH_USER_MODEL = "authentik_core.User"
 
 CSRF_COOKIE_NAME = "authentik_csrf"
 CSRF_HEADER_NAME = "HTTP_X_AUTHENTIK_CSRF"
+CSRF_TRUSTED_ORIGINS = ["https://authentik.dev.anarock.com"]
 LANGUAGE_COOKIE_NAME = "authentik_language"
 SESSION_COOKIE_NAME = "authentik_session"
 SESSION_COOKIE_DOMAIN = CONFIG.get("cookie_domain", None)
