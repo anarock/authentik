@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Stage 1: Build website
-FROM --platform=${BUILDPLATFORM} docker.io/node:22 as website-builder
+FROM docker.io/node:22 as website-builder
 
 ENV NODE_ENV=production
 
@@ -20,7 +20,7 @@ COPY ./SECURITY.md /work/
 RUN npm run build-bundled
 
 # Stage 2: Build webui
-FROM --platform=${BUILDPLATFORM} docker.io/node:22 as web-builder
+FROM docker.io/node:22 as web-builder
 
 ARG GIT_BUILD_HASH
 ENV GIT_BUILD_HASH=$GIT_BUILD_HASH
@@ -41,7 +41,7 @@ COPY ./gen-ts-api /work/web/node_modules/@goauthentik/api
 RUN npm run build
 
 # Stage 3: Build go proxy
-FROM --platform=${BUILDPLATFORM} mcr.microsoft.com/oss/go/microsoft/golang:1.22-fips-bookworm AS go-builder
+FROM mcr.microsoft.com/oss/go/microsoft/golang:1.22-fips-bookworm AS go-builder
 
 ARG TARGETOS
 ARG TARGETARCH
@@ -78,7 +78,7 @@ RUN --mount=type=cache,sharing=locked,target=/go/pkg/mod \
     go build -o /go/authentik ./cmd/server
 
 # Stage 4: MaxMind GeoIP
-FROM --platform=${BUILDPLATFORM} ghcr.io/maxmind/geoipupdate:v7.0.1 as geoip
+FROM ghcr.io/maxmind/geoipupdate:v7.0.1 as geoip
 
 ENV GEOIPUPDATE_EDITION_IDS="GeoLite2-City GeoLite2-ASN"
 ENV GEOIPUPDATE_VERBOSE="1"
