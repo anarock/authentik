@@ -209,3 +209,7 @@ source_docs/
 
 ### Golang ###
 /vendor/
+# HQ context — generated indices and per-developer overrides
+.hq/
+AGENTS.local.md
+CLAUDE.local.md
